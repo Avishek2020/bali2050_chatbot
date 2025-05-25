@@ -3,12 +3,18 @@ from flask_cors import CORS
 from openai import OpenAI
 import os
 
-# Initialize OpenAI client with environment variable
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
-# Flask setup
 app = Flask(__name__)
-CORS(app, origins=["https://bali2050-chatbot.vercel.app"]) # Enable CORS so frontend (e.g., Vercel) can access it
+
+# Fix CORS issue by allowing POST + OPTIONS + headers for Vercel frontend
+CORS(app, resources={
+    r"/chat": {
+        "origins": ["https://bali2050-chatbot.vercel.app"],
+        "methods": ["POST", "OPTIONS"],
+        "allow_headers": ["Content-Type"]
+    }
+})
 
 @app.route("/chat", methods=["POST"])
 def chat():
