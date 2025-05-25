@@ -24,7 +24,8 @@ def chat():
     try:
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
-            messages=[{"role": "user", "content": prompt}]
+            messages=[{"role": "user", "content": prompt}],
+            max_tokens=1000
         )
         reply = response.choices[0].message.content.strip()
         return jsonify({"response": reply})
