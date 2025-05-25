@@ -8,16 +8,13 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 app = Flask(__name__)
 
 # Fix CORS issue by allowing POST + OPTIONS + headers for Vercel frontend
-CORS(app, resources={
-    r"/chat": {
-        "origins": ["https://bali2050-chatbot.vercel.app"],
-        "methods": ["POST", "OPTIONS"],
-        "allow_headers": ["Content-Type"]
-    }
-})
+CORS(app, supports_credentials=True)
 
-@app.route("/chat", methods=["POST"])
+@app.route("/chat", methods=["POST", "OPTIONS"])
 def chat():
+    if request.method == "OPTIONS":
+        return '', 204  # empty 204 No Content response for preflight
+        
     user_input = request.json.get("message", "")
     
     if not user_input:
