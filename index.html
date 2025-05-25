@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Bad Lippspringe Bot</title>
+  <style>
+    body { font-family: sans-serif; padding: 30px; background: #f2f2f2; }
+    #chatbox { width: 100%; max-width: 600px; margin: auto; background: white; padding: 20px; border-radius: 10px; }
+    .msg { margin-bottom: 15px; }
+    .user { font-weight: bold; color: navy; }
+    .bot { color: darkgreen; }
+    input[type=text] { width: 90%; padding: 10px; }
+    button { padding: 10px 15px; }
+  </style>
+</head>
+<body>
+  <div id="chatbox">
+    <h2>Ask me about Bad Lippspringe!</h2>
+    <div id="messages"></div>
+    <input id="userInput" type="text" placeholder="Type your question here..." />
+    <button onclick="sendMessage()">Send</button>
+  </div>
+
+  <script>
+    async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const msgBox = document.getElementById('messages');
+      const userMsg = input.value;
+      if (!userMsg) return;
+
+      msgBox.innerHTML += `<div class='msg user'>You: ${userMsg}</div>`;
+      input.value = "";
+
+      const response = await fetch("http://localhost:5000/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: userMsg })
+      });
+
+      const data = await response.json();
+      msgBox.innerHTML += `<div class='msg bot'>Bot: ${data.response}</div>`;
+    }
+  </script>
+</body>
+</html>
