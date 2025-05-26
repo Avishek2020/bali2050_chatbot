@@ -18,9 +18,8 @@ def chat():
         return jsonify({"response": "Please enter a message."})
 
     prompt = (
-    f"You are a helpful assistant. Always assume the user is in Bad Lippspringe, Germany, and wants local information accordingly. "
-    f"Answer only questions related to Bad Lippspringe—politely reject all others with a 5-language table titled 'Message'.\n\n"
-    f"User: {user_input}\nAssistant:"
+    f"{user_input}\t Always assume the user is in city Bad Lippspringe, Germany, and wants local information accordingly. " 
+    
 )
 
 
