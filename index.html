@@ -1,6 +1,7 @@
+<!DOCTYPE html>
+<html>
 <head>
   <title>Digital Bad Lippspringe</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     html, body {
       height: 100%;
@@ -17,15 +18,16 @@
     }
 
     #chatbox {
-      width: 95%;
+      width: 90%;
       max-width: 800px;
-      height: 95vh;
+      height: 90%;
       background: #ffffff;
       border-radius: 16px;
-      padding: 20px;
+      padding: 30px;
       box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
       display: flex;
       flex-direction: column;
+      justify-content: flex-start;
     }
 
     .header {
@@ -35,12 +37,12 @@
 
     .header img {
       width: 60%;
-      max-width: 180px;
+      max-width: 200px;
       height: auto;
     }
 
     .header h1 {
-      font-size: 24px;
+      font-size: 26px;
       margin-top: 10px;
       color: #0d3b66;
     }
@@ -58,10 +60,9 @@
     .msg {
       margin-bottom: 10px;
       border-radius: 10px;
-      padding: 12px;
+      padding: 15px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
       position: relative;
-      font-size: 16px;
     }
 
     .user {
@@ -93,8 +94,7 @@
 
     #input-area {
       display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
+      gap: 10px;
     }
 
     #userInput {
@@ -103,11 +103,10 @@
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 16px;
-      min-width: 0;
     }
 
     button {
-      padding: 12px 16px;
+      padding: 12px 20px;
       background-color: #0d3b66;
       color: white;
       border: none;
@@ -127,42 +126,117 @@
     #micBtn:hover {
       background-color: #e64a19;
     }
-
-    /* 📱 Responsive for mobile */
-    @media (max-width: 600px) {
-      .header h1 {
-        font-size: 20px;
-      }
-
-      #chatbox {
-        padding: 10px;
-      }
-
-      #input-area {
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      #userInput {
-        font-size: 14px;
-        padding: 10px;
-      }
-
-      button {
-        font-size: 14px;
-        padding: 10px 14px;
-        width: 100%;
-      }
-
-      .msg {
-        font-size: 14px;
-      }
-
-      .speak-button {
-        font-size: 16px;
-        top: 6px;
-        right: 6px;
-      }
-    }
   </style>
 </head>
+<body>
+  <div id="chatbox">
+    <div class="header">
+      <img src="https://raw.githubusercontent.com/Avishek2020/bali2050_chatbot/refs/heads/main/images/dbl_logo.png" alt="Logo" />
+      <h1>Digital Bad Lippspringe</h1>
+    </div>
+
+    <div id="messages"></div>
+
+    <div id="input-area">
+      <input id="userInput" type="text" placeholder="Type or speak your question..." />
+      <button onclick="sendMessage()">Send</button>
+      <button id="micBtn" onclick="startListening()">🎙️</button>
+    </div>
+  </div>
+
+  <script>
+    // Load voices in advance
+    window.speechSynthesis.onvoiceschanged = () => {
+      speechSynthesis.getVoices();
+    };
+
+    function speakText(text) {
+      const synth = window.speechSynthesis;
+      if (!synth) return;
+
+      const utter = new SpeechSynthesisUtterance(text);
+      const isGerman = /[äöüß]|(\bder\b|\bdie\b|\bdas\b|\bein\b|\bist\b|\bund\b)/i.test(text);
+      utter.lang = isGerman ? "de-DE" : "en-US";
+
+      const voices = synth.getVoices();
+      const preferredVoice = voices.find(v => v.lang === utter.lang);
+      if (preferredVoice) utter.voice = preferredVoice;
+
+      synth.speak(utter);
+    }
+
+    async function sendMessage() {
+      const input = document.getElementById('userInput');
+      const msgBox = document.getElementById('messages');
+      const userMsg = input.value.trim();
+      if (!userMsg) return;
+
+      const userDiv = document.createElement('div');
+      userDiv.className = 'msg user';
+      userDiv.innerHTML = `<strong>You:</strong><br>${userMsg}`;
+      msgBox.appendChild(userDiv);
+      input.value = "";
+
+      try {
+        const response = await fetch("https://bali2050-chatbot.onrender.com/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: userMsg })
+        });
+
+        const data = await response.json();
+        const botText = data.response;
+
+        const botDiv = document.createElement('div');
+        botDiv.className = 'msg bot';
+        botDiv.innerHTML = `
+          <strong>Bali:</strong><br>${botText.replace(/\n/g, "<br>")}
+          <button class="speak-button" onclick="speakText(\`${botText.replace(/`/g, "\\`").replace(/"/g, '\\"')}\`)">🔊</button>
+        `;
+        msgBox.appendChild(botDiv);
+        msgBox.scrollTop = msgBox.scrollHeight;
+
+        speakText(botText); // auto-read
+      } catch (err) {
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'msg bot';
+        errorDiv.innerHTML = `<strong>Bot:</strong><br>Error: ${err.message}`;
+        msgBox.appendChild(errorDiv);
+      }
+    }
+
+    // 🎙️ Speech Recognition Setup
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+
+    function startListening() {
+      if (!recognition) {
+        alert("Speech Recognition not supported in this browser.");
+        return;
+      }
+
+      recognition.lang = "de-DE"; // or switch dynamically
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        const spokenText = event.results[0][0].transcript;
+        document.getElementById('userInput').value = spokenText;
+      };
+
+      recognition.onerror = function(event) {
+        console.error("Speech recognition error:", event.error);
+      };
+    }
+
+    document.getElementById('userInput').addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>
