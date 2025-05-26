@@ -7,7 +7,7 @@
       height: 100%;
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       background: #e6f0f3;
     }
 
@@ -57,25 +57,39 @@
       background-color: #f9f9f9;
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    td {
-      padding: 10px;
-      border: 1px solid #ccc;
-      vertical-align: top;
+    .msg {
+      margin-bottom: 10px;
+      border-radius: 10px;
+      padding: 15px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      position: relative;
     }
 
     .user {
       background-color: #e0f7fa;
       color: #004d40;
+      align-self: flex-end;
     }
 
     .bot {
       background-color: #f1f8e9;
       color: #33691e;
+      align-self: flex-start;
+    }
+
+    .speak-button {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: #555;
+    }
+
+    .speak-button:hover {
+      color: #000;
     }
 
     #input-area {
@@ -88,6 +102,7 @@
       padding: 12px;
       border: 1px solid #ccc;
       border-radius: 6px;
+      font-size: 16px;
     }
 
     button {
@@ -97,10 +112,19 @@
       border: none;
       border-radius: 6px;
       cursor: pointer;
+      font-size: 16px;
     }
 
     button:hover {
       background-color: #07416a;
+    }
+
+    #micBtn {
+      background-color: #ff5722;
+    }
+
+    #micBtn:hover {
+      background-color: #e64a19;
     }
   </style>
 </head>
@@ -114,23 +138,46 @@
     <div id="messages"></div>
 
     <div id="input-area">
-      <input id="userInput" type="text" placeholder="Type your question here..." />
+      <input id="userInput" type="text" placeholder="Type or speak your question..." />
       <button onclick="sendMessage()">Send</button>
+      <button id="micBtn" onclick="startListening()">🎙️</button>
     </div>
   </div>
 
   <script>
+    // Load voices
+    window.speechSynthesis.onvoiceschanged = () => {
+      speechSynthesis.getVoices();
+    };
+
+    function detectLanguage(text) {
+      return /[äöüß]|(\bder\b|\bdie\b|\bdas\b|\bein\b|\bist\b|\bund\b)/i.test(text) ? 'de-DE' : 'en-US';
+    }
+
+    function speakText(text) {
+      const synth = window.speechSynthesis;
+      if (!synth) return;
+
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = detectLanguage(text);
+
+      const voices = synth.getVoices();
+      const voice = voices.find(v => v.lang === utter.lang);
+      if (voice) utter.voice = voice;
+
+      synth.speak(utter);
+    }
+
     async function sendMessage() {
       const input = document.getElementById('userInput');
       const msgBox = document.getElementById('messages');
-      const userMsg = input.value;
+      const userMsg = input.value.trim();
       if (!userMsg) return;
 
-      msgBox.innerHTML += `
-        <table class="msg user">
-          <tr><td><strong>You:</strong></td><td>${userMsg}</td></tr>
-        </table><br/>
-      `;
+      const userDiv = document.createElement('div');
+      userDiv.className = 'msg user';
+      userDiv.innerHTML = `<strong>You:</strong><br>${userMsg}`;
+      msgBox.appendChild(userDiv);
       input.value = "";
 
       try {
@@ -141,28 +188,61 @@
         });
 
         const data = await response.json();
+        const botText = data.response;
 
-        msgBox.innerHTML += `
-          <table class="msg bot">
-            <tr><td><strong>Bali:</strong></td><td>${data.response.replace(/\n/g, "<br>")}</td></tr>
-          </table><br/>
+        const botDiv = document.createElement('div');
+        botDiv.className = 'msg bot';
+        botDiv.innerHTML = `
+          <strong>Bali:</strong><br>${botText.replace(/\n/g, "<br>")}
+          <button class="speak-button" onclick="speakText(\`${botText.replace(/`/g, "\\`").replace(/"/g, '\\"')}\`)">🔊</button>
         `;
+        msgBox.appendChild(botDiv);
         msgBox.scrollTop = msgBox.scrollHeight;
+
+        speakText(botText); // auto-read
       } catch (err) {
-        msgBox.innerHTML += `
-          <table class="msg bot">
-            <tr><td><strong>Bot:</strong></td><td>Error: ${err.message}</td></tr>
-          </table><br/>
-        `;
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'msg bot';
+        errorDiv.innerHTML = `<strong>Bot:</strong><br>Error: ${err.message}`;
+        msgBox.appendChild(errorDiv);
       }
     }
-    // ✅ Add this block to trigger on Enter key press
-    document.getElementById('userInput').addEventListener("keydown", function(event) {
-    if (event.key === "Enter") {
-      event.preventDefault(); // Prevent form submission or newline
-      sendMessage();
+
+    // 🎙️ Auto-language speech recognition
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = SpeechRecognition ? new SpeechRecognition() : null;
+
+    function startListening() {
+      if (!recognition) {
+        alert("Speech Recognition not supported in this browser.");
+        return;
+      }
+
+      recognition.lang = 'de-DE'; // default, will switch dynamically after speech
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.start();
+
+      recognition.onresult = function(event) {
+        const spokenText = event.results[0][0].transcript;
+        const lang = detectLanguage(spokenText);
+        recognition.lang = lang; // adjust for future
+        document.getElementById('userInput').value = spokenText;
+        speakText(spokenText); // Optional: repeat back what user said
+      };
+
+      recognition.onerror = function(event) {
+        console.error("Speech recognition error:", event.error);
+      };
     }
-  });
+
+    document.getElementById('userInput').addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        sendMessage();
+      }
+    });
   </script>
 </body>
 </html>
