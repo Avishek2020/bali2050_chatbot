@@ -22,7 +22,7 @@
 
         /* Custom scrollbar for the messages area */
         #messages::-webkit-scrollbar {
-            width: 6px;
+            width: 8px;
         }
         #messages::-webkit-scrollbar-track {
             background: #e5e7eb;
@@ -50,58 +50,55 @@
 </head>
 <body class="flex items-center justify-center min-h-screen p-0 sm:p-4">
 
-    <!-- Main chat container with responsive styling -->
-    <!-- On small screens (mobile), it takes full width and height. -->
-    <!-- On larger screens (sm: and up), it becomes a centered modal with max width and height. -->
-    <div id="chatbox" class="w-full h-full sm:w-full sm:max-w-3xl sm:h-auto sm:max-h-[95vh] bg-white sm:rounded-2xl shadow-2xl flex flex-col p-2 sm:p-6">
+    <!-- Main chat container with a larger max-width on desktop -->
+    <div id="chatbox" class="w-full h-full sm:w-full sm:max-w-6xl sm:h-auto sm:max-h-[95vh] bg-white sm:rounded-2xl shadow-2xl flex flex-col p-4 sm:p-8">
 
-        <!-- Header section with responsive padding and font sizes -->
-        <header class="flex items-center gap-3 sm:gap-4 pb-4 border-b border-gray-200">
-            <img src="https://raw.githubusercontent.com/Avishek2020/bali2050_chatbot/refs/heads/main/images/dbl_logo.png" alt="Logo" class="w-12 h-12 sm:w-14 sm:h-14 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/60x60/DBEAFE/3B82F6?text=Logo';">
+        <!-- Header section with larger fonts and icon -->
+        <header class="flex items-center gap-4 pb-6 border-b border-gray-200">
+            <img src="https://raw.githubusercontent.com/Avishek2020/bali2050_chatbot/refs/heads/main/images/dbl_logo.png" alt="Logo" class="w-14 h-14 sm:w-16 sm:h-16 object-contain" onerror="this.onerror=null;this.src='https://placehold.co/64x64/DBEAFE/3B82F6?text=Logo';">
             <div>
-                <h1 class="text-lg sm:text-2xl font-bold text-gray-800">Digital Bad Lippspringe</h1>
-                <p class="text-xs sm:text-sm text-gray-500">Ihr persönlicher KI-Assistent</p>
+                <h1 class="text-xl sm:text-3xl font-bold text-gray-800">Digital Bad Lippspringe</h1>
+                <p class="text-sm sm:text-base text-gray-500">Ihr persönlicher KI-Assistent</p>
             </div>
         </header>
 
-        <!-- Messages container with responsive padding -->
-        <div id="messages" class="flex-1 overflow-y-auto py-6 px-2 sm:px-4 space-y-6">
-            <!-- Example Bot Message with responsive max-width -->
-            <div class="flex items-end gap-3">
-                <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+        <!-- Messages container with more padding -->
+        <div id="messages" class="flex-1 overflow-y-auto py-8 px-4 sm:px-6 space-y-8">
+            <!-- Example Bot Message with larger text and avatar -->
+            <div class="flex items-end gap-4">
+                <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
                 </div>
-                <div class="bg-gray-100 text-gray-800 p-3 rounded-lg rounded-bl-none shadow-sm max-w-[85%] sm:max-w-md relative group">
-                    <p class="text-sm">Hallo! Wie kann ich Ihnen heute helfen? Klicken Sie auf das Benutzersymbol, um Ihr Bild hochzuladen.</p>
-                     <button class="speak-button absolute top-1 right-1 p-1 bg-white rounded-full text-gray-400 hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity" onclick="speakText('Hallo! Wie kann ich Ihnen heute helfen? Klicken Sie auf das Benutzersymbol, um Ihr Bild hochzuladen.')">
-                         <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"></path></svg>
+                <div class="bg-gray-100 text-gray-800 p-4 rounded-lg rounded-bl-none shadow-sm max-w-[85%] sm:max-w-md relative group">
+                    <p class="text-base">Hallo! Wie kann ich Ihnen heute helfen? Klicken Sie auf das Benutzersymbol, um Ihr Bild hochzuladen.</p>
+                     <button class="speak-button absolute top-2 right-2 p-1 bg-white rounded-full text-gray-400 hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity" onclick="speakText('Hallo! Wie kann ich Ihnen heute helfen? Klicken Sie auf das Benutzersymbol, um Ihr Bild hochzuladen.')">
+                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"></path></svg>
                      </button>
                 </div>
             </div>
         </div>
         
         <!-- Typing indicator (hidden by default) -->
-        <div id="typing-indicator" class="hidden flex items-end gap-3 px-2 sm:px-4 pb-4">
-             <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
-                 <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+        <div id="typing-indicator" class="hidden flex items-end gap-4 px-4 sm:px-6 pb-4">
+             <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
+                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
              </div>
-             <div class="bg-gray-100 text-gray-800 p-3 rounded-lg rounded-bl-none shadow-sm flex items-center space-x-1.5">
-                 <div class="typing-dot w-2 h-2 bg-gray-500 rounded-full"></div>
-                 <div class="typing-dot w-2 h-2 bg-gray-500 rounded-full"></div>
-                 <div class="typing-dot w-2 h-2 bg-gray-500 rounded-full"></div>
+             <div class="bg-gray-100 text-gray-800 p-4 rounded-lg rounded-bl-none shadow-sm flex items-center space-x-2">
+                 <div class="typing-dot w-2.5 h-2.5 bg-gray-500 rounded-full"></div>
+                 <div class="typing-dot w-2.5 h-2.5 bg-gray-500 rounded-full"></div>
+                 <div class="typing-dot w-2.5 h-2.5 bg-gray-500 rounded-full"></div>
              </div>
         </div>
 
-        <!-- Input area -->
-        <div class="pt-4 border-t border-gray-200">
-            <div class="flex items-center bg-gray-100 rounded-xl p-2">
-                <input id="userInput" type="text" placeholder="Stellen Sie Ihre Frage..." class="flex-1 bg-transparent border-none text-gray-800 placeholder-gray-500 focus:ring-0 text-sm px-3"/>
-                <button id="micBtn" class="p-2 text-gray-500 hover:text-blue-600 transition-colors rounded-lg">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
+        <!-- Input area with larger text and buttons -->
+        <div class="pt-6 border-t border-gray-200">
+            <div class="flex items-center bg-gray-100 rounded-xl p-3">
+                <input id="userInput" type="text" placeholder="Stellen Sie Ihre Frage..." class="flex-1 bg-transparent border-none text-gray-800 placeholder-gray-500 focus:ring-0 text-base px-4"/>
+                <button id="micBtn" class="p-3 text-gray-500 hover:text-blue-600 transition-colors rounded-lg">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z"></path></svg>
                 </button>
-                <button id="sendBtn" class="p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 active:scale-95 transition-all shadow">
-                    <!-- Changed icon to a more universal 'send' paper plane -->
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
+                <button id="sendBtn" class="p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 active:scale-95 transition-all shadow">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z"></path></svg>
                 </button>
             </div>
         </div>
@@ -166,13 +163,13 @@
 
             if (sender === 'user') {
                 const iconHtml = userIconSrc 
-                    ? `<img src="${userIconSrc}" class="w-8 h-8 rounded-full object-cover">`
-                    : `<div class="w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center flex-shrink-0 text-gray-600 font-semibold">U</div>`;
+                    ? `<img src="${userIconSrc}" class="w-10 h-10 rounded-full object-cover">`
+                    : `<div class="w-10 h-10 rounded-full bg-gray-300 flex items-center justify-center flex-shrink-0 text-gray-600 font-semibold text-lg">U</div>`;
                 
                 messageHtml = `
-                    <div class="flex items-end justify-end gap-3">
-                        <div class="bg-blue-500 text-white p-3 rounded-lg rounded-br-none shadow-sm max-w-[85%] sm:max-w-md">
-                            <p class="text-sm">${sanitizedText}</p>
+                    <div class="flex items-end justify-end gap-4">
+                        <div class="bg-blue-500 text-white p-4 rounded-lg rounded-br-none shadow-sm max-w-[85%] sm:max-w-md">
+                            <p class="text-base">${sanitizedText}</p>
                         </div>
                         <label for="iconUpload" class="cursor-pointer user-icon-container">
                             ${iconHtml}
@@ -182,14 +179,14 @@
                 // Escape backticks for template literal in onclick
                 const botTextForSpeech = text.replace(/`/g, "\\`").replace(/"/g, '\\"');
                 messageHtml = `
-                    <div class="flex items-end gap-3">
-                        <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
-                            <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
+                    <div class="flex items-end gap-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0">
+                            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"></path></svg>
                         </div>
-                        <div class="bg-gray-100 text-gray-800 p-3 rounded-lg rounded-bl-none shadow-sm max-w-[85%] sm:max-w-md relative group">
-                            <p class="text-sm">${sanitizedText}</p>
-                            <button class="speak-button absolute top-1 right-1 p-1 bg-white rounded-full text-gray-400 hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity" onclick="speakText(\`${botTextForSpeech}\`)">
-                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"></path></svg>
+                        <div class="bg-gray-100 text-gray-800 p-4 rounded-lg rounded-bl-none shadow-sm max-w-[85%] sm:max-w-md relative group">
+                            <p class="text-base">${sanitizedText}</p>
+                            <button class="speak-button absolute top-2 right-2 p-1 bg-white rounded-full text-gray-400 hover:text-blue-600 opacity-0 group-hover:opacity-100 transition-opacity" onclick="speakText(\`${botTextForSpeech}\`)">
+                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M9.383 3.076A1 1 0 0110 4v12a1 1 0 01-1.707.707L4.586 13H2a1 1 0 01-1-1V8a1 1 0 011-1h2.586l3.707-3.707a1 1 0 011.09-.217zM14.657 2.929a1 1 0 011.414 0A9.972 9.972 0 0119 10a9.972 9.972 0 01-2.929 7.071 1 1 0 01-1.414-1.414A7.971 7.971 0 0017 10c0-2.21-.894-4.208-2.343-5.657a1 1 0 010-1.414zm-2.829 2.828a1 1 0 011.415 0A5.983 5.983 0 0115 10a5.984 5.984 0 01-1.757 4.243 1 1 0 01-1.415-1.415A3.984 3.984 0 0013 10a3.983 3.983 0 00-1.172-2.828 1 1 0 010-1.415z" clip-rule="evenodd"></path></svg>
                             </button>
                         </div>
                     </div>`;
@@ -211,7 +208,7 @@
                     userIconSrc = e.target.result;
                     // Update all existing user icons
                     document.querySelectorAll('.user-icon-container').forEach(container => {
-                        container.innerHTML = `<img src="${userIconSrc}" class="w-8 h-8 rounded-full object-cover">`;
+                        container.innerHTML = `<img src="${userIconSrc}" class="w-10 h-10 rounded-full object-cover">`;
                     });
                 };
                 reader.readAsDataURL(file);
