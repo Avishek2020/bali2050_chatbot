@@ -59,7 +59,8 @@ def chat():
         response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=session["history"],
-            max_tokens=1000
+            max_tokens=1000,
+            temperature=0
         )
         reply = response.choices[0].message.content.strip()
 
