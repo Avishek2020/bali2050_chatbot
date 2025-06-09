@@ -56,10 +56,10 @@ def chat():
     try:
         # Query OpenAI
         response = client.chat.completions.create(
-            model="gpt-3.5-turbo",
+            model="gpt-4o",
             messages=session["history"],
             max_tokens=1000,
-            temperature=0
+            temperature=0.7
         )
         reply = response.choices[0].message.content.strip()
 
