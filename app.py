@@ -49,29 +49,26 @@ def chat():
     except:
         detected_lang = DEFAULT_LANGUAGE
 
-    # Setup session history with system prompt (only once)
+    # Setup session history
     if "history" not in session:
         session["history"] = [SYSTEM_PROMPT]
 
-    # Append user's message to history
     session["history"].append({"role": "user", "content": user_input})
 
     try:
-        # Query OpenAI
-        response = client.chat.completions.create(
+        # Query OpenAI with latest model gpt-4o
+        response = openai.ChatCompletion.create(
             model="gpt-4o",
             messages=session["history"],
             max_tokens=1000,
             temperature=0.7
         )
-        reply = response.choices[0].message.content.strip()
+        reply = response.choices[0].message['content'].strip()
 
-        # Fallback detection using tag
         if "__OUT_OF_SCOPE__" in reply:
             localized_msg = FALLBACK_MESSAGES.get(detected_lang[:2], FALLBACK_MESSAGES[DEFAULT_LANGUAGE])
             return jsonify({"response": localized_msg})
 
-        # Append assistant reply to history
         session["history"].append({"role": "assistant", "content": reply})
         session.modified = True
 
@@ -79,7 +76,6 @@ def chat():
 
     except Exception as e:
         return jsonify({"response": f"An error occurred: {str(e)}"}), 500
-
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
