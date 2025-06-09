@@ -13,7 +13,7 @@ CORS(app, supports_credentials=True)
 SYSTEM_PROMPT = {
     "role": "system",
     "content": (
-        "You are a helpful assistant that ONLY answers questions related to Bad Lippspringe, Germany — "
+        "You are a helpful assistant that ONLY strict instructions answers questions related to Bad Lippspringe, Germany — "
         "including local services, events, weather, transportation, and local history.\n"
         "If a user asks something unrelated (e.g., about another city of Germany or Deutschland), DO NOT answer.\n"
         "You must always follow these strict instructions: ✅ VERIFIED INFORMATION ONLY\n"
